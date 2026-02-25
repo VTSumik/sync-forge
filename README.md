@@ -1,17 +1,17 @@
 ![Logo](media/logo.png)
 
 # Sync (Forge)
-[![CurseForge](https://img.shields.io/badge/dynamic/json?color=%23f16436&label=CurseForge&query=title&url=https%3A%2F%2Fapi.cfwidget.com%2F515365&cacheSeconds=3600)](https://www.curseforge.com/minecraft/mc-mods/sync-fabric-rereported)
-[![GitHub license](https://img.shields.io/github/license/pawjwp/sync-fabric.svg?cacheSeconds=36000)](https://github.com/pawjwp/sync-fabric?tab=License-1-ov-file)
+[![CurseForge](https://img.shields.io/badge/dynamic/json?color=%23f16436&label=CurseForge&query=title&url=https%3A%2F%2Fapi.cfwidget.com%2F515365&cacheSeconds=3600)](https://www.curseforge.com/minecraft/mc-mods/sync-forge)
+[![GitHub license](https://img.shields.io/github/license/VTSumik/Sync-Forge.svg?cacheSeconds=36000)](https://github.com/VTSumik/Sync-Forge/tree/main?tab=MIT-1-ov-file)
 
-[Sync (Forge)](https://github.com/pawjwp/sync-fabric) is an unofficial port of an [unofficial port](https://modrinth.com/mod/sync-fabric-reported) of an [unofficial reimplementation](https://modrinth.com/mod/sync-fabric) of the original [Sync](https://github.com/iChun/Sync) mod, originally developed by [iChun](https://github.com/iChun). This version was created for the [Crash Landing Remake](https://modrinth.com/modpack/crash-landing-remake) modpack and fixes a couple of significant bugs (see versions page).
+[Sync (Forge)](https://github.com/VTSumik/Sync-Forge) is a Forge port of an [unofficial port](https://github.com/pawjwp/sync-fabric) of an [unofficial port](https://modrinth.com/mod/sync-fabric-reported) of an [unofficial reimplementation](https://modrinth.com/mod/sync-fabric) of the original [Sync](https://github.com/iChun/Sync) mod, originally developed by [iChun](https://github.com/iChun). This mod is used in the [Desolate Planet](https://modrinth.com/modpack/desolate-planet) modpack and fixes some significant bugs with the other versions.
 
 The original description says it all:
 
 > Sync provides clones, or as we like to call it, "shells". These shells are basically a new individual, with their own inventory, experience level, and even gamemode.
 > \
 > \
-> However, what they lack, is a mind to control them. That’s where the player comes in. Each shell is biometrically tied to the player who’s sample is used to create it, and will allow the player to “sync” their mind to the other shell, essentially creating multiple player instances.
+> However, what they lack, is a mind to control them. That’s where the player comes in. Each shell is biometrically tied to the player who’s sample is used to create it, and will allow the player to "sync" their mind to the other shell, essentially creating multiple player instances.
 
 ----
 
@@ -52,12 +52,6 @@ The original description says it all:
 #### Sync Core:
 
 ![Sync Core: Daylight Detector + Lapis Block + Daylight Detector + Quartz + Ender Pearl + Quartz + Emerald + Redstone Block + Emerald](media/sync_core-recipe.png)
-
-#### Sync Core (for Hardcore players):
-
-![Sync Core (Hardcore): Daylight Detector + Lapis Block + Daylight Detector + Quartz + Nether Star + Quartz + Emerald + Redstone Block + Emerald](media/sync_core-recipe-hardcore.png)
-
-P.S. - If you aren't brave enough to fight the Wither in Hardcore, you can use [this datapack](media/simplified_hardcore_recipe_datapack.zip) *(it will bring back the original Sync Core recipe)*. Please read [this article](https://minecraft.fandom.com/wiki/Tutorials/Installing_a_data_pack), if you don't know how to do it.
 
 #### Shell Constructor:
 
@@ -188,15 +182,9 @@ You can edit any of these values directly in the config file or via [ModMenu](ht
 
 [![Crowdin](https://badges.crowdin.net/sync-fabric/localized.svg)](https://crowdin.com/project/sync-fabric)
 
-[Sync (Fabric)](https://github.com/pawjwp/sync-fabric) makes use of crowd sourced translations.
+[Sync (Forge)](https://github.com/VTSumik/Sync-Forge) makes use of crowd sourced translations.
 
 You can help translate the mod to additional languages here: [crowdin.com](https://crowdin.com/project/sync-fabric).
-
-----
-
-## Known Issues
-
- - Dynamic shell texturing does not work with Iris ([#25](https://github.com/Kir-Antipov/sync-fabric/issues/25))
 
 ----
 
@@ -209,33 +197,8 @@ Requirements:
 You can download the mod from:
 
  - [CurseForge](https://www.curseforge.com/minecraft/mc-mods/sync-forge)
- - [GitHub Actions](https://github.com/pawjwp/sync-fabric/actions/workflows/build-artifacts.yml) *(these builds may be unstable, but they represent the actual state of the development)*
 
 ## Developers
-
-`build.gradle`:
-
-```groovy
-repositories {
-    maven {
-        name = "Modrinth"
-        url = "https://api.modrinth.com/maven"
-        content {
-            includeGroup "maven.modrinth"
-        }
-    }
-}
-
-dependencies {
-    modImplementation "maven.modrinth:sync-fabric:${project.sync_version}"
-}
-```
-
-`gradle.properties`:
-
-```properties
-sync_version=/* latest version goes here */
-```
 
 There's [no documentation](https://www.commitstrip.com/en/2021/11/10/no-documentation/) for the project's [api](https://github.com/Kir-Antipov/sync-fabric/tree/1.17.x/dev/src/main/java/stable/kir/sync/api) yet, but you can find some useful examples in the [`compat` package](https://github.com/Kir-Antipov/sync-fabric/tree/1.17.x/stable/src/main/java/dev/kir/sync/compat).
 
@@ -247,8 +210,8 @@ Requirements:
 ### Linux/MacOS
 
 ```cmd
-git clone https://github.com/Kir-Antipov/sync-fabric.git
-cd sync-fabric
+git https://github.com/VTSumik/Sync-Forge.git
+cd Sync-Forge
 
 chmod +x ./gradlew
 ./gradlew build
@@ -257,8 +220,8 @@ cd build/libs
 ### Windows
 
 ```cmd
-git clone https://github.com/Kir-Antipov/sync-fabric.git
-cd sync-fabric
+git clone hhttps://github.com/VTSumik/Sync-Forge.git
+cd Sync-Forge
 
 gradlew build
 cd build/libs
@@ -296,5 +259,3 @@ SOFTWARE.
 [Sync (Fabric)](https://github.com/Kir-Antipov/sync-fabric) was originally licensed under GNU LGPLv3 license to conform to [the original mod](https://github.com/iChun/Sync), but since the project is not a port, but a reimplementation with its own unique codebase, I got permission from [iChun](https://github.com/iChun) to change the license to MIT.
 
 You can find more about the MIT license on [this website](https://choosealicense.com/licenses/mit/).
-
-<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api" target="_blank"><img alt="Fabric API - Mods - Minecraft - CurseForge" src="https://i.imgur.com/Ol1Tcf8.png" height="48"></a>
