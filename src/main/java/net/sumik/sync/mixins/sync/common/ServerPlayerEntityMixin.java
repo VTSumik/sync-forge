@@ -280,10 +280,6 @@ abstract class ServerPlayerEntityMixin extends Player implements ServerShell, Ki
 
     @Inject(method = "die", at = @At("HEAD"), cancellable = true)
     private void onDeath(DamageSource source, CallbackInfo ci) {
-        if (!this.isArtificial) {
-            return;
-        }
-
         ShellState respawnShell = this.shellsById.values().stream().filter(x -> this.canBeApplied(x) && x.getProgress() >= ShellState.PROGRESS_DONE).findAny().orElse(null);
         if (respawnShell == null) {
             return;
@@ -311,7 +307,8 @@ abstract class ServerPlayerEntityMixin extends Player implements ServerShell, Ki
     @Override
     public boolean updateKillableEntityPostDeath() {
         this.deathTime = Mth.clamp(++this.deathTime, 0, 20);
-        if (this.isArtificial && this.shellsById.values().stream().anyMatch(x -> this.canBeApplied(x) && x.getProgress() >= ShellState.PROGRESS_DONE)) {
+        boolean hasRespawnShell = this.shellsById.values().stream().anyMatch(x -> this.canBeApplied(x) && x.getProgress() >= ShellState.PROGRESS_DONE);
+        if (this.undead && hasRespawnShell) {
             return true;
         }
 
@@ -426,39 +423,10 @@ abstract class ServerPlayerEntityMixin extends Player implements ServerShell, Ki
 
         if (this.level() == targetWorld) {
             this.connection.teleport(x, y, z, yaw, pitch);
+            this.isChangingDimension = false;
             return;
         }
-
-        ServerLevel serverWorld = this.serverLevel();
         ServerPlayer serverPlayer = (ServerPlayer)(Object)this;
-
-        serverPlayer.connection.send(new ClientboundRespawnPacket(
-                targetWorld.dimensionTypeId(),
-                targetWorld.dimension(),
-                BiomeManager.obfuscateSeed(targetWorld.getSeed()),
-                serverPlayer.gameMode.getGameModeForPlayer(),
-                serverPlayer.gameMode.getPreviousGameModeForPlayer(),
-                targetWorld.isDebug(),
-                targetWorld.isFlat(),
-                (byte)1,
-                this.getLastDeathLocation(),
-                3
-        ));
-        serverPlayer.connection.send(new ClientboundChangeDifficultyPacket(targetWorld.getDifficulty(), targetWorld.getLevelData().isDifficultyLocked()));
-        PlayerList playerManager = Objects.requireNonNull(this.level().getServer()).getPlayerList();
-        playerManager.sendPlayerPermissionLevel(serverPlayer);
-        serverWorld.removePlayerImmediately(serverPlayer, RemovalReason.CHANGED_DIMENSION);
-        this.unsetRemoved();
-        serverPlayer.setServerLevel(targetWorld);
-        targetWorld.addDuringPortalTeleport(serverPlayer);
-        this.connection.teleport(x, y, z, yaw, pitch);
-        this.triggerDimensionChangeTriggers(targetWorld);
-        serverPlayer.connection.send(new ClientboundPlayerAbilitiesPacket(serverPlayer.getAbilities()));
-        playerManager.sendLevelInfo(serverPlayer, targetWorld);
-        playerManager.sendAllPlayerInfo(serverPlayer);
-        for (MobEffectInstance effectInstance : this.getActiveEffects()) {
-            this.connection.send(new ClientboundUpdateMobEffectPacket(this.getId(), effectInstance));
-        }
-        this.triggerDimensionChangeTriggers(targetWorld);
+        serverPlayer.teleportTo(targetWorld, x, y, z, Set.of(), yaw, pitch);
     }
 }
